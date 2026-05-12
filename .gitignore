@@ -1,0 +1,35 @@
+# OS/Editor junk
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs and temp files
+*.log
+*.tmp
+tmp/
+temp/
+
+# Backups and archives (exclude site assets)
+*.zip
+*.rar
+*.7z
+*_BACKUP*
+backup/
+
+# IDE
+.vscode/settings.json
+.idea/
+
+# Node (in case it's added later)
+node_modules/
+package-lock.json
+
+# Local development
+.env
+.env.local
