@@ -3,6 +3,7 @@ const { useState, useEffect, useRef, useMemo } = React;
 
 // ---- Top Nav ----
 function TopNav({ mode, onSwitchMode, soundOn, setSoundOn }) {
+  const isMobile = window.innerWidth <= 768;
   const links = ['Home', 'Projects', 'Dossier', 'Contact'];
   const scrollToSection = (index) => {
     const ids = ['01-home', '02-projects', '03-dossier', '04-contact'];
@@ -51,9 +52,11 @@ function TopNav({ mode, onSwitchMode, soundOn, setSoundOn }) {
           <span className="dot" style={{background: 'var(--text-dim)'}}/>
           Enable Sound
         </button>
-        <button className="btn nav-switch" onClick={onSwitchMode} style={{padding:'8px 12px', borderColor:'var(--accent)', color:'var(--accent)', whiteSpace:'nowrap'}}>
-          ⌘ Breach
-        </button>
+        {!isMobile && (
+          <button className="btn nav-switch" onClick={onSwitchMode} style={{padding:'8px 12px', borderColor:'var(--accent)', color:'var(--accent)', whiteSpace:'nowrap'}}>
+            ⌘ Breach
+          </button>
+        )}
         <div style={{
           width:36, height:36,
           border:'1px solid var(--panel-border)',
@@ -69,6 +72,9 @@ function TopNav({ mode, onSwitchMode, soundOn, setSoundOn }) {
 
 // ---- Mode selector (left dock) ----
 function ModeSelector({ mode, onSelect }) {
+  const isMobile = window.innerWidth <= 768;
+  if (isMobile) return null;
+
   const opts = [
     { key:'graveyard', label:'Graveyard Realm', sub:'DARK FANTASY // RPG', accent:'var(--gv-blood)' },
     { key:'matrix',    label:'Matrix Sector',   sub:'CYBER // OPERATOR',  accent:'var(--mx-green)' },
@@ -189,9 +195,11 @@ function Hero({ mode, onSwitchMode }) {
             <button className="btn primary" onClick={scrollToProjects}>▶ View Projects</button>
             <button className="btn" disabled style={{opacity:0.5, cursor:'not-allowed'}}>◐ Enable Sound</button>
             <button className="btn" onClick={scrollToContact}>⟡ Services</button>
-            <button className="btn" onClick={onSwitchMode} style={{borderColor:'var(--accent)', color:'var(--accent)'}}>
-              ⚡ Red Pill
-            </button>
+            {window.innerWidth > 768 && (
+              <button className="btn" onClick={onSwitchMode} style={{borderColor:'var(--accent)', color:'var(--accent)'}}>
+                ⚡ Red Pill
+              </button>
+            )}
           </div>
 
           {/* Skills strip */}

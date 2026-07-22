@@ -77,8 +77,9 @@ function App() {
     });
   }
 
-  // Attach 'B' shortcut for breach
+  // Attach 'B' shortcut for breach (disabled on mobile)
   uE(()=>{
+    if (isLowEndDevice()) return;
     const onKey = (e)=>{
       if (e.key === 'b' || e.key === 'B') doSwitch();
     };
@@ -100,17 +101,19 @@ function App() {
       <StatusBar mode={mode} soundOn={soundOn}/>
 
       <TweaksPanel title="Tweaks">
-        <TweakSection title="Reality">
-          <TweakRadio
-            label="Active mode"
-            value={t.mode}
-            onChange={(v)=>setTweak('mode', v)}
-            options={[
-              { value:'graveyard', label:'Graveyard' },
-              { value:'matrix',    label:'Matrix' },
-            ]}/>
-          <TweakButton onClick={()=>doSwitch()}>⚡ Trigger reality breach</TweakButton>
-        </TweakSection>
+        {!isLowEndDevice() && (
+          <TweakSection title="Reality">
+            <TweakRadio
+              label="Active mode"
+              value={t.mode}
+              onChange={(v)=>setTweak('mode', v)}
+              options={[
+                { value:'graveyard', label:'Graveyard' },
+                { value:'matrix',    label:'Matrix' },
+              ]}/>
+            <TweakButton onClick={()=>doSwitch()}>⚡ Trigger reality breach</TweakButton>
+          </TweakSection>
+        )}
         <TweakSection title="Atmosphere">
           <TweakToggle label="Scanlines (matrix)" value={t.scanlines} onChange={(v)=>setTweak('scanlines', v)}/>
           <TweakToggle label="Show rift transition" value={t.showRift} onChange={(v)=>setTweak('showRift', v)}/>
