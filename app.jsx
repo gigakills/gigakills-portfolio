@@ -1,6 +1,13 @@
 // Main app: assembles the GIGAKILLS portfolio, drives mode switching + glitch transition.
 const { useState: uS, useEffect: uE, useRef: uR, useMemo: uM, useCallback: uC } = React;
 
+function isLowEndDevice() {
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  const isSmallViewport = window.innerWidth <= 768;
+  const isSlowConnection = navigator.connection && (navigator.connection.effectiveType === '4g' || navigator.connection.effectiveType === '3g' || navigator.connection.effectiveType === 'slow-2g');
+  return isMobile || (isSmallViewport && isSlowConnection);
+}
+
 function App() {
   const [mode, setMode] = uS('graveyard');
   const [transitioning, setTransitioning] = uS(false);
@@ -59,6 +66,10 @@ function App() {
   function doSwitch(target) {
     const next = target || (mode === 'graveyard' ? 'matrix' : 'graveyard');
     if (next === mode || transitioning) return;
+    if (next === 'matrix' && isLowEndDevice()) {
+      console.warn('Matrix mode is not supported on mobile/low-end devices');
+      return;
+    }
     setTransitioning(true);
     runBreachAnimation(()=>{
       setMode(next);

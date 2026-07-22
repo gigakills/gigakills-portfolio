@@ -26,7 +26,7 @@
   // ═════════════════════════════════════════════════════════════════════════════
 
   const MATRIX_SCENE_MODE = "glb_only";
-  const MODEL_PATH = "Cockpitfinal.glb";
+  const MODEL_PATH = "Cockpitfinal_compressed.glb";
   const SCREEN_VIDEO_PATH = "The Matrix Raining Green Code Backdrop for OBS - Teams, Zoom calls in 4k - link to 45mins ver below.mp4";
 
   // Procedural object flags (all false in glb_only mode)
@@ -267,6 +267,14 @@
     }
 
     const loader = new THREE.GLTFLoader();
+
+    // Set up Draco loader for compressed geometry
+    if (window.THREE.DRACOLoader) {
+      const dracoLoader = new THREE.DRACOLoader();
+      dracoLoader.setDecoderPath('https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/libs/draco/');
+      loader.setDRACOLoader(dracoLoader);
+    }
+
     loader.load(
       MODEL_PATH,
       (gltf) => {
