@@ -449,6 +449,7 @@ function SystemsPanel({ mode }) {
 
 // ---- Contact CTA ----
 function ContactCTA({ mode }) {
+  const isMobile = window.innerWidth <= 768;
   const links = [
     { name:'Discord', handle:'discord.gg/t4q6Ru55AC', url:'https://discord.gg/t4q6Ru55AC' },
     { name:'Roblox',  handle:'gigakills profile', url:'https://www.roblox.com/users/8842626/profile' },
@@ -457,7 +458,7 @@ function ContactCTA({ mode }) {
   return (
     <section id="04-contact" style={{padding:'40px 0 80px'}}>
       <div className="container">
-        <div className="panel brackets" style={{padding:'56px 56px 48px', position:'relative', overflow:'hidden'}}>
+        <div className="panel brackets" style={{padding:isMobile?'32px 16px 24px':'56px 56px 48px', position:'relative', overflow:'hidden'}}>
           {/* background mark */}
           <div className="wordmark" style={{
             position:'absolute', right:-30, bottom:-60,
@@ -466,24 +467,25 @@ function ContactCTA({ mode }) {
             pointerEvents:'none',
           }}>GK</div>
           <div className="h-mono" style={{marginBottom:14, color:'var(--accent)'}}>// HANDSHAKE_OPEN</div>
-          <h2 className="h-display" style={{fontSize:'clamp(40px, 5vw, 72px)', margin:0, marginBottom:24, maxWidth:900}}>
+          <h2 className="h-display" style={{fontSize:isMobile?'28px':'clamp(40px, 5vw, 72px)', margin:0, marginBottom:24, maxWidth:900}}>
             Ready to collaborate?
           </h2>
           <p style={{
-            fontSize:18, color:'var(--accent)', margin:0, marginBottom:32, maxWidth:700,
+            fontSize:isMobile?14:18, color:'var(--accent)', margin:0, marginBottom:32, maxWidth:700,
             fontFamily: mode==='matrix' ? 'var(--body)' : 'IM Fell English, serif',
             fontStyle: mode==='matrix' ? 'normal':'italic',
           }}>
             I show you how deep the rabbit hole goes.
           </p>
           <div style={{
-            display:'grid', gridTemplateColumns:`repeat(${links.length}, 1fr)`,
+            display:'grid', gridTemplateColumns:isMobile?'1fr':`repeat(${links.length}, 1fr)`,
             border:'1px solid var(--panel-border)',
           }}>
             {links.map((l, i) => (
               <a key={l.name} href={l.url} target="_blank" rel="noopener noreferrer" style={{
-                padding:'18px',
-                borderRight: i < links.length-1 ? '1px solid var(--panel-border)' : 'none',
+                padding:isMobile?'14px 12px':'18px',
+                borderRight: isMobile ? 'none' : (i < links.length-1 ? '1px solid var(--panel-border)' : 'none'),
+                borderBottom: isMobile && i < links.length-1 ? '1px solid var(--panel-border)' : 'none',
                 textDecoration:'none',
                 color:'var(--text)',
                 display:'flex', flexDirection:'column', gap:6,
@@ -492,8 +494,8 @@ function ContactCTA({ mode }) {
               }}
               onMouseEnter={e=>e.currentTarget.style.background='rgba(0,0,0,0.6)'}
               onMouseLeave={e=>e.currentTarget.style.background='rgba(0,0,0,0.3)'}>
-                <span className="h-mono">{l.name}</span>
-                <span className="h-display" style={{fontSize:16}}>{l.handle}</span>
+                <span className="h-mono" style={{fontSize:isMobile?9:undefined}}>{l.name}</span>
+                <span className="h-display" style={{fontSize:isMobile?13:16}}>{l.handle}</span>
               </a>
             ))}
           </div>
