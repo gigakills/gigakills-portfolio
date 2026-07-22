@@ -70,7 +70,7 @@ function TopNav({ mode, onSwitchMode, soundOn, setSoundOn }) {
   );
 }
 
-// ---- Mode selector (left dock) ----
+// ---- Mode selector (bottom dock for desktop) ----
 function ModeSelector({ mode, onSelect }) {
   const isMobile = window.innerWidth <= 768;
   if (isMobile) return null;
@@ -81,11 +81,10 @@ function ModeSelector({ mode, onSelect }) {
   ];
   return (
     <div className="mode-dock" style={{
-      position:'fixed', left: 24, top: '50%', transform:'translateY(-50%)',
-      zIndex: 40, width: 232,
+      position:'fixed', bottom: 24, left: '50%', transform:'translateX(-50%)',
+      zIndex: 40, width: 'auto', display:'flex', gap:12,
     }}>
-      <div className="h-mono mode-eyebrow" style={{marginBottom:12, paddingLeft:4}}>SELECT REALITY MODE</div>
-      <div className="mode-options" style={{display:'flex', flexDirection:'column', gap:10}}>
+      <div className="mode-options" style={{display:'flex', flexDirection:'row', gap:12, alignItems:'center'}}>
         {opts.map(o => {
           const active = mode === o.key;
           return (
@@ -95,27 +94,27 @@ function ModeSelector({ mode, onSelect }) {
               className="panel brackets"
               style={{
                 textAlign:'left',
-                padding:'14px 16px',
+                padding:'12px 14px',
                 cursor:'pointer',
                 color: active ? o.accent : 'var(--text)',
                 borderColor: active ? o.accent : 'var(--panel-border)',
                 boxShadow: active ? `0 0 24px ${o.accent}55, inset 0 0 18px ${o.accent}20` : null,
                 fontFamily:'inherit',
                 position:'relative',
+                whiteSpace:'nowrap',
               }}>
-              <div style={{display:'flex', alignItems:'center', gap:10, marginBottom:4}}>
+              <div style={{display:'flex', alignItems:'center', gap:8, marginBottom:0}}>
                 <span className="dot" style={{background:o.accent, opacity: active?1:0.4}}/>
-                <span className="h-mono" style={{color: active?o.accent:'var(--text-dim)'}}>{o.sub}</span>
-              </div>
-              <div className="h-display" style={{fontSize:18, color: active?o.accent:'var(--text)'}}>
-                {o.label}
+                <div>
+                  <div className="h-mono" style={{color: active?o.accent:'var(--text-dim)', fontSize:10}}>{o.sub}</div>
+                  <div className="h-display" style={{fontSize:14, color: active?o.accent:'var(--text)', lineHeight:1.2}}>
+                    {o.label}
+                  </div>
+                </div>
               </div>
             </button>
           );
         })}
-      </div>
-      <div className="h-mono mode-footnote" style={{marginTop:14, paddingLeft:4, fontSize:9, opacity:0.5}}>
-        ↪ press B to breach
       </div>
     </div>
   );
@@ -144,13 +143,6 @@ function Hero({ mode, onSwitchMode }) {
     }}>
       <div className="container hero-grid" style={{ display:'grid', gridTemplateColumns:'1fr', gap:40, width:'100%', paddingLeft: 296 }}>
         <div>
-          {/* Eyebrow */}
-          <div style={{display:'flex', gap:10, marginBottom: 36, alignItems:'center'}}>
-            <span className="chip"><span className="dot live"/> CHANNEL ACTIVE</span>
-            <span className="chip">COMMISSIONS OPEN</span>
-            <span className="chip">{mode === 'matrix' ? 'OPERATOR LAYER' : 'WORLD-SIDE'}</span>
-          </div>
-
           {/* Wordmark */}
           <div className="wordmark" style={{
             fontSize: 'clamp(96px, 14vw, 220px)',
